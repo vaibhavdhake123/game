@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>गेम स्ट्रीमिंग डॅशबोर्ड</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome CDN for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* 'Inter' फॉन्टसाठी कस्टम स्टाइल */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* स्क्रोलबार लपवण्यासाठी, पण स्क्रोलिंगला परवानगी देण्यासाठी */
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+            /* Chrome, Safari, Opera साठी */
+        }
+
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            /* IE आणि Edge साठी */
+            scrollbar-width: none;
+            /* Firefox साठी */
+        }
+
+        /* कस्टम रंग आणि ग्रेडियंट्स */
+        .bg-dark-blue {
+            background-color: #1a1e35;
+        }
+
+        .text-light-blue {
+            color: #8a96c3;
+        }
+
+        .bg-gradient-main {
+            background: linear-gradient(135deg, #2a2e4c, #3a3e6c);
+        }
+
+        .bg-gradient-card {
+            background: linear-gradient(135deg, #2a2e4c, #3a3e6c);
+        }
+
+        .bg-gradient-button {
+            background: linear-gradient(90deg, #6c5ce7, #8e5ce7);
+        }
+
+        .text-purple-accent {
+            color: #8e5ce7;
+        }
+
+        .border-dark-blue-light {
+            border-color: #3a3e6c;
+        }
+
+        .chart-line {
+            fill: none;
+            stroke: #8e5ce7;
+            /* पर्पल ॲक्सेंट रंग */
+            stroke-width: 2;
+        }
+
+        .chart-area {
+            fill: url(#chartGradient);
+        }
+
+        .chart-gradient-start {
+            stop-color: #8e5ce7;
+            stop-opacity: 0.8;
+        }
+
+        .chart-gradient-end {
+            stop-color: #8e5ce7;
+            stop-opacity: 0;
+        }
+    </style>
+</head>
+
+<body class="bg-dark-blue text-gray-200 font-inter min-h-screen flex flex-col">
+    <!-- मुख्य कंटेनर -->
+    <div class="flex flex-grow">
+        <!-- डावीकडील साइडबार (डेस्कटॉप दृश्य) -->
+        <aside
+            class="hidden md:flex flex-col items-center py-8 px-4 bg-dark-blue shadow-lg rounded-r-3xl w-24 flex-shrink-0 border-r border-dark-blue-light">
+            <div class="text-4xl font-bold text-white mb-10">G</div>
+            <nav class="flex flex-col space-y-8 flex-grow">
+                <a href="#"
+                    class="p-3 rounded-xl bg-gradient-button text-white shadow-md hover:opacity-90 transition-opacity duration-200">
+                    <i class="fas fa-home text-xl"></i>
+                </a>
+                <a href="#" class="p-3 rounded-xl text-light-blue hover:bg-gray-700 transition-colors duration-200">
+                    <i class="fas fa-stream text-xl"></i>
+                </a>
+                <a href="#" class="p-3 rounded-xl text-light-blue hover:bg-gray-700 transition-colors duration-200">
+                    <i class="fas fa-store text-xl"></i>
+                </a>
+                <a href="#" class="p-3 rounded-xl text-light-blue hover:bg-gray-700 transition-colors duration-200">
+                    <i class="fas fa-newspaper text-xl"></i>
+                </a>
+                <a href="#" class="p-3 rounded-xl text-light-blue hover:bg-gray-700 transition-colors duration-200">
+                    <i class="fas fa-globe text-xl"></i>
+                </a>
+            </nav>
+            <div class="mt-auto">
+                <a href="#" class="p-3 rounded-xl text-light-blue hover:bg-gray-700 transition-colors duration-200">
+                    <i class="fas fa-cog text-xl"></i>
+                </a>
+            </div>
+        </aside>
+
+        <!-- मुख्य सामग्री क्षेत्र -->
+        <main class="flex-grow p-6 md:p-8 lg:p-10 space-y-8 pb-24 md:pb-8">
+            <!-- शीर्षलेख (Header) -->
+            <header class="flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="flex space-x-4 hide-scrollbar overflow-x-auto pb-2">
+                    <a href="#" class="text-white font-semibold whitespace-nowrap">HOME</a>
+                    <a href="#"
+                        class="text-light-blue hover:text-white transition-colors duration-200 whitespace-nowrap">STREAMS</a>
+                    <a href="#"
+                        class="text-light-blue hover:text-white transition-colors duration-200 whitespace-nowrap">GAME
+                        STORE</a>
+                    <a href="#"
+                        class="text-light-blue hover:text-white transition-colors duration-200 whitespace-nowrap">CYBERSPORT</a>
+                    <a href="#"
+                        class="text-light-blue hover:text-white transition-colors duration-200 whitespace-nowrap">NEWS</a>
+                </div>
+                <div class="flex items-center space-x-4 mt-4 md:mt-0">
+                    <button
+                        class="bg-gradient-button text-white font-semibold py-2 px-4 rounded-full shadow-md hover:opacity-90">
+                        <i class="fas fa-plus mr-2"></i> <span>Start to Stream</span>
+                    </button>
+                    <div class="flex items-center space-x-2 bg-gradient-card rounded-full p-2 shadow-inner">
+                        <img src="https://store-images.s-microsoft.com/image/apps.50664.70702278257994163.e6749f0b-a7f8-4ed1-b45c-4d7a2278d946.182b8f40-901f-4fc3-a51a-d5c3561987d2"
+                            alt="User Avatar" class="w-8 h-8 rounded-full object-cover">
+                        <span class="font-semibold text-sm mr-2">William_Prime</span>
+                        <i class="fas fa-chevron-down text-light-blue text-xs"></i>
+                    </div>
+                </div>
+            </header>
+
+            <!-- मुख्य सामग्री ग्रिड -->
+            <section class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- डावीकडील प्रोफाइल आणि चॅनेल विभाग -->
+                <div class="lg:col-span-1 space-y-6">
+                    <!-- प्रोफाइल कार्ड -->
+                    <div class="bg-gradient-card rounded-2xl p-6 shadow-lg border border-dark-blue-light">
+                        <div class="flex items-center space-x-4 mb-6">
+                            <div class="relative">
+                                <img src="https://www.webwise.ie/wp-content/uploads/2018/04/Fortnite.jpg" alt="William Prime Avatar"
+                                    class="w-16 h-16 rounded-full object-cover border-2 border-purple-accent">
+                                <span
+                                    class="absolute bottom-0 right-0 w-4 h-4 bg-green-500 rounded-full border-2 border-dark-blue"></span>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-lg">William_Prime</h4>
+                                <p class="text-sm text-light-blue">Gamer profile</p>
+                            </div>
+                        </div>
+                        <div class="space-y-4 mb-6">
+                            <div class="flex items-center space-x-3 text-light-blue">
+                                <i class="fas fa-chart-bar text-xl"></i>
+                                <span>Stream Activity</span>
+                            </div>
+                            <div class="flex items-center space-x-3 text-light-blue">
+                                <i class="fas fa-medal text-xl"></i>
+                                <span>Tournament History</span>
+                            </div>
+                            <div class="flex items-center space-x-3 text-light-blue">
+                                <i class="fas fa-trophy text-xl"></i>
+                                <span>Awards</span>
+                            </div>
+                        </div>
+                        <button
+                            class="bg-gradient-button text-white font-semibold py-3 px-6 rounded-full shadow-md hover:opacity-90 w-full">
+                            Start to Stream
+                        </button>
+                    </div>
+
+                    <!-- आवडते चॅनेल -->
+                    <div class="bg-gradient-card rounded-2xl p-6 shadow-lg border border-dark-blue-light">
+                        <h3 class="flex justify-between items-center text-lg font-semibold mb-6">
+                            Favorite channels
+                            <a href="#" class="text-sm text-light-blue hover:underline">Full</a>
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-4">
+                                <img src="https://store-images.s-microsoft.com/image/apps.50664.70702278257994163.e6749f0b-a7f8-4ed1-b45c-4d7a2278d946.182b8f40-901f-4fc3-a51a-d5c3561987d2"
+                                    alt="Buster Channel"
+                                    class="w-10 h-10 rounded-full object-cover border border-gray-600">
+                                <div class="flex-grow">
+                                    <h4 class="font-medium text-base">Buster</h4>
+                                    <p class="text-xs text-light-blue">2.4K viewers</p>
+                                </div>
+                                <span class="w-3 h-3 bg-green-500 rounded-full"></span>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <img src="https://images.immediate.co.uk/production/volatile/sites/3/2024/11/Fortnite-Chapter-6-hunters-release-date-7fe4ab2.jpg"
+                                    alt="M.Stroy Channel"
+                                    class="w-10 h-10 rounded-full object-cover border border-gray-600">
+                                <div class="flex-grow">
+                                    <h4 class="font-medium text-base">M.Stroy</h4>
+                                    <p class="text-xs text-light-blue">1.8K viewers</p>
+                                </div>
+                                <span class="w-3 h-3 bg-green-500 rounded-full"></span>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <img src="https://images.immediate.co.uk/production/volatile/sites/3/2024/11/Fortnite-Chapter-6-hunters-release-date-7fe4ab2.jpg"
+                                    alt="Artem Channel"
+                                    class="w-10 h-10 rounded-full object-cover border border-gray-600">
+                                <div class="flex-grow">
+                                    <h4 class="font-medium text-base">Artem</h4>
+                                    <p class="text-xs text-light-blue">1.2K viewers</p>
+                                </div>
+                                <span class="w-3 h-3 bg-green-500 rounded-full"></span>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <img src="https://images.immediate.co.uk/production/volatile/sites/3/2024/11/Fortnite-Chapter-6-hunters-release-date-7fe4ab2.jpg"
+                                    alt="JessiAVN Channel"
+                                    class="w-10 h-10 rounded-full object-cover border border-gray-600">
+                                <div class="flex-grow">
+                                    <h4 class="font-medium text-base">JessiAVN</h4>
+                                    <p class="text-xs text-light-blue">900 viewers</p>
+                                </div>
+                                <span class="w-3 h-3 bg-green-500 rounded-full"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- मध्यवर्ती मुख्य सामग्री -->
+                <div class="lg:col-span-2 space-y-8">
+                    <!-- मुख्य कार्यक्रम विभाग -->
+                    <div
+                        class="relative bg-gradient-card rounded-2xl p-6 shadow-lg border border-dark-blue-light overflow-hidden">
+                        <h3 class="text-lg font-semibold mb-4">Don't Miss The Main Events</h3>
+                        <div class="flex flex-col md:flex-row gap-6">
+                            <div class="md:w-2/3">
+                                <div class="relative w-full h-48 md:h-64 rounded-xl overflow-hidden mb-4">
+                                    <img src="https://store-images.s-microsoft.com/image/apps.50664.70702278257994163.e6749f0b-a7f8-4ed1-b45c-4d7a2278d946.182b8f40-901f-4fc3-a51a-d5c3561987d2"
+                                        alt="Creative Competition with the Princess Castle"
+                                        class="w-full h-full object-cover">
+                                    <div class="absolute inset-0 bg-black bg-opacity-30 flex items-end p-4">
+                                        <h4 class="text-xl md:text-2xl font-bold text-white leading-tight">CREATIVE
+                                            COMPETITION WITH THE PRINCESS CASTLE</h4>
+                                    </div>
+                                </div>
+                                <div class="flex space-x-2 mb-4">
+                                    <span class="bg-gray-700 text-white text-xs px-3 py-1 rounded-full">26</span>
+                                    <span class="bg-gray-700 text-white text-xs px-3 py-1 rounded-full">27</span>
+                                    <span class="bg-gray-700 text-white text-xs px-3 py-1 rounded-full">28</span>
+                                    <span class="bg-gray-700 text-white text-xs px-3 py-1 rounded-full">29</span>
+                                </div>
+                                <button
+                                    class="bg-gradient-button text-white font-semibold py-2 px-5 rounded-full shadow-md hover:opacity-90">
+                                    See More
+                                </button>
+                            </div>
+                            <div class="md:w-1/3 flex flex-col items-center justify-center text-center">
+                                <img src="https://images.immediate.co.uk/production/volatile/sites/3/2024/11/Fortnite-Chapter-6-hunters-release-date-7fe4ab2.jpg"
+                                    alt="Fortnite Character" class="w-32 h-auto mb-4">
+                                <p class="text-sm text-light-blue">Join the event and win exclusive rewards!</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- आता पहा विभाग -->
+                    <div class="bg-gradient-card rounded-2xl p-6 shadow-lg border border-dark-blue-light">
+                        <h3 class="text-lg font-semibold mb-6">Watch now</h3>
+                        <div class="flex space-x-3 overflow-x-auto pb-4 mb-6 hide-scrollbar">
+                            <button
+                                class="bg-gray-700 text-white font-medium py-2 px-5 rounded-full text-sm whitespace-nowrap">Overwatch</button>
+                            <button
+                                class="bg-gray-700 text-white font-medium py-2 px-5 rounded-full text-sm whitespace-nowrap">World
+                                Of Warcraft</button>
+                            <button
+                                class="bg-gradient-button text-white font-medium py-2 px-5 rounded-full text-sm whitespace-nowrap">Fortnite</button>
+                            <button
+                                class="bg-gray-700 text-white font-medium py-2 px-5 rounded-full text-sm whitespace-nowrap">Hearthstone</button>
+                            <button
+                                class="bg-gray-700 text-white font-medium py-2 px-5 rounded-full text-sm whitespace-nowrap">Dota
+                                2</button>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <!-- गेम कार्ड 1 -->
+                            <div class="bg-dark-blue rounded-xl p-4 shadow-inner border border-dark-blue-light">
+                                <img src="https://images.immediate.co.uk/production/volatile/sites/3/2024/11/Fortnite-Chapter-6-hunters-release-date-7fe4ab2.jpg"
+                                    alt="Overwatch Nexus Cup" class="w-full h-32 object-cover rounded-lg mb-3">
+                                <h4 class="font-medium text-base mb-1">Overwatch Nexus Cup</h4>
+                                <p class="text-xs text-light-blue mb-2">Tournament for champions</p>
+                                <div class="flex justify-between items-center text-xs text-light-blue">
+                                    <span><i class="fas fa-calendar-alt mr-1"></i> Sep 24, 2023</span>
+                                    <span><i class="fas fa-users mr-1"></i> 150K</span>
+                                </div>
+                            </div>
+                            <!-- गेम कार्ड 2 -->
+                            <div class="bg-dark-blue rounded-xl p-4 shadow-inner border border-dark-blue-light">
+                                <img src="https://images.immediate.co.uk/production/volatile/sites/3/2024/11/Fortnite-Chapter-6-hunters-release-date-7fe4ab2.jpg"
+                                    alt="Fortnite Galaxy Cup" class="w-full h-32 object-cover rounded-lg mb-3">
+                                <h4 class="font-medium text-base mb-1">Fortnite Galaxy Cup</h4>
+                                <p class="text-xs text-light-blue mb-2">Epic Games Tournament</p>
+                                <div class="flex justify-between items-center text-xs text-light-blue">
+                                    <span><i class="fas fa-calendar-alt mr-1"></i> Oct 10, 2023</span>
+                                    <span><i class="fas fa-users mr-1"></i> 200K</span>
+                                </div>
+                            </div>
+                            <!-- गेम कार्ड 3 -->
+                            <div class="bg-dark-blue rounded-xl p-4 shadow-inner border border-dark-blue-light">
+                                <img src="https://images.immediate.co.uk/production/volatile/sites/3/2024/11/Fortnite-Chapter-6-hunters-release-date-7fe4ab2.jpg"
+                                    alt="College Esports Tournament" class="w-full h-32 object-cover rounded-lg mb-3">
+                                <h4 class="font-medium text-base mb-1">College Esports Tournament</h4>
+                                <p class="text-xs text-light-blue mb-2">Heroes of the Dorm 2023</p>
+                                <div class="flex justify-between items-center text-xs text-light-blue">
+                                    <span><i class="fas fa-calendar-alt mr-1"></i> Nov 05, 2023</span>
+                                    <span><i class="fas fa-users mr-1"></i> 180K</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+    </div>
+    </section>
+    </main>
+
+    <!-- मोबाइलसाठी खालील नेव्हिगेशन (लहान स्क्रीनवर दृश्यमान) -->
+    <nav
+        class="md:hidden fixed bottom-0 left-0 right-0 bg-dark-blue border-t border-dark-blue-light shadow-lg py-3 z-50">
+        <ul class="flex justify-around items-center">
+            <li>
+                <a href="#" class="flex flex-col items-center text-white">
+                    <i class="fas fa-home text-xl"></i>
+                    <span class="text-xs mt-1">मुख्यपृष्ठ</span>
+                </a>
+            </li>
+            <li>
+                <a href="#"
+                    class="flex flex-col items-center text-light-blue hover:text-white transition-colors duration-200">
+                    <i class="fas fa-stream text-xl"></i>
+                    <span class="text-xs mt-1">स्ट्रीम्स</span>
+                </a>
+            </li>
+            <li>
+                <a href="#"
+                    class="flex flex-col items-center text-light-blue hover:text-white transition-colors duration-200">
+                    <i class="fas fa-store text-xl"></i>
+                    <span class="text-xs mt-1">स्टोअर</span>
+                </a>
+            </li>
+            <li>
+                <a href="#"
+                    class="flex flex-col items-center text-light-blue hover:text-white transition-colors duration-200">
+                    <i class="fas fa-cog text-xl"></i>
+                    <span class="text-xs mt-1">सेटिंग्ज</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    </div>
+</body>
+
+</html>
